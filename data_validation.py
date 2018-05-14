@@ -54,7 +54,7 @@ def standardize_date(the_date):
 
 
 def date_validation(date):
-    match = re.search(r'\d{4}-\d{2}-\d{2}[T]\d{2}:\d{2}:\d{2}[+]\d{2}:\d{2}', 'The date is 2018-04-01T06:21:48+00:00')
+    match = re.search(r'\d{4}-\d{2}-\d{2}[T]\d{2}:\d{2}:\d{2}[+]\d{2}:\d{2}', date)
     match.group(0)
 
     return date
@@ -119,4 +119,4 @@ df = df.applymap(remove_whitespace)
 # df.primiseDate = df.primisedate.apply(standardize_date)
 df.createDateTime = df.createDateTime.apply(date_validation)
 
-print(df)  # debug
+print(df.dtypes)  # debug

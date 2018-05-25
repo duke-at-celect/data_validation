@@ -50,14 +50,13 @@ def standardize_date(the_date):
     return formatted_date
 
 
-'''Peterson add your new regex function here'''
-
-
 def date_validation(date):
-    match = re.search(r'\d{4}-\d{2}-\d{2}[T]\d{2}:\d{2}:\d{2}[+]\d{2}:\d{2}', date)
-    match.group(0)
-
-    return date
+    try:
+        match = re.search(r'\d{4}-\d{2}-\d{2}[T]\d{2}:\d{2}:\d{2}[+]\d{2}:\d{2}', date)
+        match.group(0)
+    except:
+        match = "BAD_FORMAT"
+    return match
 
 
 '''
@@ -67,56 +66,56 @@ WRAP IN FUNCTION
  print("Finding Missing Values...\n")
 '''
 
+def compile(date):
+    try:
+        if df.isnull().values.any():
+            print('There are missing values in the file.\n')
+            dx = np.where(pd.isnull(df))
+            print(df.loc[df.iloc[dx].index, :])
 
-def missing_val(val):
-    if df.isnull().values.any():
-        print('There are missing values in the file.\n')
-        dx = np.where(pd.isnull(df))
-        print(df.loc[df.iloc[dx].index, :])
-
-    else:
-        print('No values are missing. OK')
-
-
-'''
-WRAP IN FUNCTION
-# zipCode
-
-'''
-
-
-def zipCode(zip):
-    for zip in df.zipCode:
-        if len(str(zip)) <= 5:
-            print('True')
         else:
-            print('False')
+            print('No values are missing. OK')
+    except:
+        pass
 
+    try:
+        for zip in df.zipCode:
+            if len(str(zip)) <= 5:
+                print('True')
+            else:
+                print('False')
+    except:
+        pass
 
-def country(country):
-    for country in df.Country:
-        if len(str(country)) == 2:
-            print('True')
-        else:
-            print('False')
+    try:
+        for country in df.Country:
+            if len(str(country)) == 2:
+                print('True')
+            else:
+                print('False')
+    except:
+        pass
 
+    try:
+        for state in df.State:
+            if len(str(state)) == 2:
+                print('True')
+            else:
+                print('False')
+    except:
+        pass
 
-def State(state):
-    for state in df.State:
-        if len(str(state)) == 2:
-            print('True')
-        else:
-            print('False')
 
 
 # if __name__ == '__main__':
 
 df = pd.read_csv("test.csv")
 
+# compile()
 # Applies remove_whitespace() to the entire DF
 df = df.applymap(remove_whitespace)
 # Applies validate_date() to promiseDate column only
 # df.primiseDate = df.primisedate.apply(standardize_date)
-df.createDateTime = df.createDateTime.apply(date_validation)
+df.createDateTime = df.createDateTime.apply(compile)
 
-print(df.dtypes)  # debug
+print(df)  # debug

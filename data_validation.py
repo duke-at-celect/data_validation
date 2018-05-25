@@ -1,5 +1,7 @@
 import pandas as pd
+import numpy as np
 from time import strftime
+import re
 from datetime import datetime
 
 
@@ -48,60 +50,72 @@ def standardize_date(the_date):
     return formatted_date
 
 
-'''Peterson add your new regex function here'''
+def date_validation(date):
+    try:
+        match = re.search(r'\d{4}-\d{2}-\d{2}[T]\d{2}:\d{2}:\d{2}[+]\d{2}:\d{2}', date)
+        match.group(0)
+    except:
+        match = "BAD_FORMAT"
+    return match
+
 
 '''
 WRAP IN FUNCTION
 # 1. Find Missing Values
  print("Checking CSV File...\n")
  print("Finding Missing Values...\n")
-
- if df.isnull().values.any():
-     print('There are missing values in the file.\n')
-     dx = np.where(pd.isnull(df))
-     print(df.loc[df.iloc[dx].index, : ])
-
- else:
-     print('No values are missing. OK')
 '''
 
+def compile(date):
+    try:
+        if df.isnull().values.any():
+            print('There are missing values in the file.\n')
+            dx = np.where(pd.isnull(df))
+            print(df.loc[df.iloc[dx].index, :])
 
-'''
-WRAP IN FUNCTION
-# zipCode
+        else:
+            print('No values are missing. OK')
+    except:
+        pass
 
-# zipf = None
-# for zip in df.zipCode:
-#     if len(str(zip)) <= 5:
-#         print('True')
-#     else:
-#         print('False')
-'''
+    try:
+        for zip in df.zipCode:
+            if len(str(zip)) <= 5:
+                print('True')
+            else:
+                print('False')
+    except:
+        pass
 
-'''
-WRAP IN FUNCTION
-# for country in df.Country:
-#     if len(str(country)) == 2:
-#         print('True')
-#     # else:
-#         # Throw Error Here
-'''
-'''
-WRAP IN FUNCTION
-# for state in df.State:
-#     if len(str(state)) == 2:
-#         print('True')
-    # else:
-    # Throw Error Here
-'''
+    try:
+        for country in df.Country:
+            if len(str(country)) == 2:
+                print('True')
+            else:
+                print('False')
+    except:
+        pass
 
-if __name__ == '__main__':
+    try:
+        for state in df.State:
+            if len(str(state)) == 2:
+                print('True')
+            else:
+                print('False')
+    except:
+        pass
 
-    df = pd.read_csv("~/Documents/support_ninja/peterson/sample_data/orders_sample_data.csv")
 
-    # Applies remove_whitespace() to the entire DF
-    df = df.applymap(remove_whitespace)
-    # Applies validate_date() to promiseDate column only
-    df.promiseDate = df.promiseDate.apply(standardize_date)
 
-    print(df)  # debug
+# if __name__ == '__main__':
+
+df = pd.read_csv("test.csv")
+
+# compile()
+# Applies remove_whitespace() to the entire DF
+df = df.applymap(remove_whitespace)
+# Applies validate_date() to promiseDate column only
+# df.primiseDate = df.primisedate.apply(standardize_date)
+df.createDateTime = df.createDateTime.apply(compile)
+
+print(df)  # debug
